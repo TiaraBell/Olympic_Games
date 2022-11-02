@@ -48,11 +48,36 @@ FROM athlete_events
 WHERE games LIKE '%Winter'
 ORDER BY sport;
 
--- 6. Which Sports were just played only once in the olympics.
+-- 6. Which sports were just played only once in the olympics.
 SELECT sport, COUNT(DISTINCT(sport)) 
 FROM athlete_events
 GROUP BY sport
 HAVING COUNT(DISTINCT Games) = 1
 ORDER BY Sport;
 
+-- 7. Fetch the total no of sports played in each olympic games.
+SELECT games, COUNT(DISTINCT(sport)) AS num_sports
+FROM athlete_events
+GROUP BY games
+ORDER BY games;
 
+-- 8. Who are the oldest athletes to win a gold medal?
+SELECT name, age, medal
+FROM athlete_events
+WHERE medal = 'Gold' AND age != 'NA'
+ORDER BY age DESC;
+
+-- 9. Which team had the most female gold medalists?
+SELECT COUNT(sex) AS female_medalists, medal, team 
+FROM athlete_events
+WHERE medal = 'Gold' AND sex = 'F'
+GROUP BY team, medal
+ORDER BY female_medalists DESC; 
+
+
+-- 10. What country has the most gold medalists?
+SELECT noc, COUNT(medal) AS num_gold_medals
+FROM athlete_events
+WHERE medal = 'Gold'
+GROUP BY noc
+ORDER by num_gold_medals DESC;
